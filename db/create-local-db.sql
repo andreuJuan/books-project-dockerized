@@ -1,0 +1,24 @@
+CREATE DATABASE IF NOT EXISTS book_database;
+
+USE book_database;
+
+CREATE TABLE IF NOT EXISTS book (
+  id int NOT NULL AUTO_INCREMENT,
+  title varchar(255) NOT NULL,
+  author varchar(255) NOT NULL,
+  summary varchar(255) NOT NULL,
+  createdAt datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  updatedAt datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (id),
+  UNIQUE KEY IDX_c10a44a29ef231062f22b1b7ac (title)
+);
+
+CREATE TABLE IF NOT EXISTS user (
+  id int NOT NULL AUTO_INCREMENT,
+  username varchar(255) NOT NULL,
+  password varchar(255) NOT NULL,
+  createdAt datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  updatedAt datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (id),
+  UNIQUE KEY IDX_78a916df40e02a9deb1c4b75ed (username)
+);

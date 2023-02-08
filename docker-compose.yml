@@ -1,0 +1,70 @@
+x-common-variables: &common-variables
+  MYSQL_DATABASE: book_database
+  MYSQL_USER: MYSQL_USER
+  MYSQL_PASSWORD: MYSQL_PASSWORD
+
+services:
+  mariadb:
+    image: "mariadb"
+    build:
+      dockerfile: Dockerfile
+      context: "./db"
+    container_name: "mariadb"
+    ports:
+      - "3306:3306"
+    environment:
+      <<: *common-variables
+      MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+      MYSQL_HOST: localhost
+
+  nginx:
+    depends_on:
+      - api
+      - client
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "80:80"
+
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: "./books-node-backend"
+    depends_on:
+      - mariadb
+    volumes:
+      - /app/node_modules
+      - ./books-node-backend:/app
+    environment:
+      <<: *common-variables
+      MYSQL_HOST_IP: mariadb
+    ports:
+      - "3001:4000"
+
+  client:
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    build:
+      dockerfile: Dockerfile
+      context: ./books-react-frontend
+    volumes:
+      - /app/node_modules
+      - ./books-react-frontend:/app
+    ports:
+      - "3000:3000"
+
+  adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    ports:
+      - 8000:8080
+    depends_on:
+      - mariadb
+    environment:
+      ADMINER_DEFAULT_SERVER: mariadb
+# volumes:
+#   db-data:
+#     external: true
