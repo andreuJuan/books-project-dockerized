@@ -15,3 +15,9 @@ Check the [backend docs](books-node-backend/README.md) for details on the Nodejs
 2. Open a terminal and navigate to the root of this project. There, run `docker-compose up --build` until it has completed setting up. **NOTE:** If you want it to not depend on the terminal to be open, add the `-d` flag. Bear in mind that in this case you will have to close the containers from the terminal or the desktop app.
 
 3. Open a browser and type the URL `http://localhost`. The login page will appear and we are ready to go! For more details on how to navigate the frontend check the [frontend docs](books-react-frontend/README.md).
+
+### Check the DataBase contents
+
+The Docker configuration includes a DataBase management tool: Adminer.
+To access it type the URL `http://localhost:8000` in a browser and the Adminer login page will appear.
+There, set the user `root`, the password `MYSQL_ROOT_PASSWORD` and the database `book_database` to be able to access the `book` and `user` table.
